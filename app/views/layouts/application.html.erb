@@ -10,6 +10,16 @@
   </head>
 
   <body>
+    <div>
+      <h2 id="navbar-logo">Twitter</h2>
+      <div id="navigation-menu">
+        <% if user_signed_in? %>
+          <%= link_to :My_profile, user_path(current_user.user_name) %>
+          <%= link_to :Log_out, destroy_user_session_path, method: :delete %>
+        <% else %>
+        <% end %>
+      </div>
+    </div>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>
