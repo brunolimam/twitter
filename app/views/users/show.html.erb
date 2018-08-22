@@ -2,6 +2,10 @@
 Username: <%= @user.user_name %><br>
 Seguidores: <%= @user.followers_count %><br>
 Seguindo: <%= @user.following_count %><br>
+Seguidores:
+<% @user.followers.each do |follower| %>
+  <%= follower.user_name %>
+<% end %><br>
 <br><br><br>
 <% if user_signed_in?%>
   <%= link_to :Edit_profile, edit_user_registration_path %>
