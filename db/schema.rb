@@ -10,13 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_22_130810) do
+ActiveRecord::Schema.define(version: 2018_08_22_142427) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -33,12 +36,20 @@ ActiveRecord::Schema.define(version: 2018_08_22_130810) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "following_relations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "followed_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followed_user_id"], name: "index_following_relations_on_followed_user_id"
+    t.index ["user_id", "followed_user_id"], name: "index_following_relations_on_user_id_and_followed_user_id", unique: true
+    t.index ["user_id"], name: "index_following_relations_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "user_name", default: "", null: false
     t.string "display_name", default: "", null: false
     t.string "profile_description", default: "", null: false
-    t.integer "following_count", default: 0, null: false
-    t.integer "followers_count", default: 0, null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
