@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
 
-  devise_for :users, :controllers => { registrations: 'registrations' }
-  resources :users, only: [:show], param: :user_name
-  root to: "application#index"
+  root to: 'application#index'
+  
+  # Authentication routes
+  devise_for :users, :controllers => { registrations: 'registrations' }, :path => '/', except: [:edit]
+  
+  # Profile routes
+  resources :users, only: [:show], param: :user_name, :path => '/' do
+    post '/follow', to: 'following_relations#follow'
+    post '/unfollow', to: 'following_relations#unfollow'
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
