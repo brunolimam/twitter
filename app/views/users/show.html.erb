@@ -1,12 +1,16 @@
 <%= image_tag @user.avatar %><br>
 Username: <%= @user.user_name %><br>
-Following: <%= @user.followed_users.count %><br>
-Followers: <%= @user.follower_users.count %><br>
+Following: <%= @user.followed_users.size %><br>
+Followers: <%= @user.follower_users.size %><br>
 <br><br>
-<% if @user == current_user %>
-  <%= link_to :Edit_profile, edit_user_registration_path %>
-<% elsif !current_user.followed_users.include?(@user) %>
-  FOLLOW
+<% if user_signed_in? %>
+  <% if @user == current_user %>
+    <%= link_to :Edit_profile, edit_user_registration_path %>
+  <% elsif !current_user.followed_users.include?(@user) %>
+    <%= link_to :Follow, user_follow_path(@user), :method => :post %>
+  <% else %>
+    <%= link_to :Unfollow, user_unfollow_path(@user), :method => :post %>
+  <% end %>
 <% else %>
-  UNFOLOW
+  <%= link_to :Join_twitter, new_user_registration_path %>
 <% end %>
