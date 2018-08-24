@@ -1,0 +1,11 @@
+<% if !@user.tweets.empty? %>
+  <%= render 'tweets/all_user_tweets' %>
+<% else %>
+  <% if @user == current_user %>
+    <p>You still haven't tweeted anything,
+      <%= link_to :try_it, new_user_tweet_path(@user) %>
+    now.</p>
+  <% else %>
+    <p>User haven't tweeted anything yet.</p>
+  <% end %>
+<% end %>
