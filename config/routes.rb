@@ -1,16 +1,17 @@
 Rails.application.routes.draw do
-
-  root to: 'application#index'
-  
   # Authentication routes
   devise_for :users, :controllers => { registrations: 'registrations' }, :path => '/', except: [:edit]
   
   # Profile routes
+  authenticate :user do
+    root to: 'tweets#timeline'
+  end
+
   resources :users, only: [:show], param: :user_name, :path => '/' do
     # Following actions routes
     post '/follow', to: 'following_relations#follow'
     post '/unfollow', to: 'following_relations#unfollow'
-  
+
     # Tweets routes
     resources :tweets
   end

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  validates :user_name, uniqueness: true
+
   has_one_attached :avatar
 
   has_many :following_relations, dependent: :destroy

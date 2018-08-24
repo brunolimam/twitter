@@ -1,6 +1,14 @@
 class TweetsController < ApplicationController
+  def timeline
+    @tweets = Tweet.all.select { |tweet| 
+      current_user.followed_users.include?(tweet.user)
+    }
+    render "_all_user_tweets"
+  end
+
   def index
     @user = User.find_by(user_name: params[:user_user_name])
+    @tweets = @user.tweets
   end
 
   def new
@@ -9,9 +17,18 @@ class TweetsController < ApplicationController
   end
 
   def create
-    @user = User.find(params[:user_user_name])
+    @user = User.find_by(user_name: params[:user_user_name])
     @tweet = Tweet.new(tweet_params)
-    @user.tweets << @tweet
+    if @user.tweets << @tweet
+      redirect_to(:back)
+    else
+      @tweet.errors.details
+    end
+  end
+
+  def destroy
+    @tweet = Tweet.find(params[:id])
+    @tweet.destroy
   end
 
   private

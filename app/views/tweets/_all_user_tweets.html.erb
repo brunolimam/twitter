@@ -1,3 +1,10 @@
-<% @user.tweets.each do |tweet| %>
-  <h2><%=tweet.content%></h2><br>
+<% @tweets.each do |tweet| %>
+  <div>
+    <span>
+      <%= tweet.user.user_name %>
+      <br>
+      <%= tweet.content %>
+      <br>
+    </span>
+  </div>
 <% end %>
