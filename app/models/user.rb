@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :follower_users, through: :followers, source: :user
 
   has_many :tweets, dependent: :destroy
+  has_many :tweet_likes, dependent: :destroy
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

@@ -1,11 +1,4 @@
 class TweetsController < ApplicationController
-  def timeline
-    @tweets = Tweet.all.select { |tweet| 
-      current_user.followed_users.include?(tweet.user)
-    }
-    render "_all_user_tweets"
-  end
-
   def index
     @user = User.find_by(user_name: params[:user_user_name])
     @tweets = @user.tweets
@@ -30,7 +23,7 @@ class TweetsController < ApplicationController
     @tweet = Tweet.find(params[:id])
     @tweet.destroy
   end
-
+  
   private
   def tweet_params
     params.require(:tweet).permit(:content)

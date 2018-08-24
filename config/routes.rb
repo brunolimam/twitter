@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   
   # Profile routes
   authenticated :user do
-    root to: 'tweets#timeline', as: :authenticated_root
+    root to: 'users#timeline', as: :authenticated_root
   end
 
   resources :users, only: [:show], param: :user_name, :path => '/' do
@@ -13,7 +13,10 @@ Rails.application.routes.draw do
     post '/unfollow', to: 'following_relations#unfollow'
 
     # Tweets routes
-    resources :tweets
+    resources :tweets do
+      post '/like', to: 'likes#like'
+      post '/dislike', to: 'likes#dislike'
+    end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
