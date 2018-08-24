@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { registrations: 'registrations' }, :path => '/', except: [:edit]
   
   # Profile routes
-  authenticate :user do
-    root to: 'tweets#timeline'
+  authenticated :user do
+    root to: 'tweets#timeline', as: :authenticated_root
   end
 
   resources :users, only: [:show], param: :user_name, :path => '/' do
@@ -16,4 +16,6 @@ Rails.application.routes.draw do
     resources :tweets
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  root 'application#index'
 end
