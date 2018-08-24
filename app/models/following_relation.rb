@@ -1,5 +1,5 @@
 class FollowingRelation < ApplicationRecord
-  belongs_to :user, touch: true, counter_cache: true
+  belongs_to :user, touch: true, counter_cache: :followees_count
   belongs_to :followed_user, counter_cache: :followers_count, class_name: "User"
 
   validate :self_follow
