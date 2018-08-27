@@ -1,6 +1,4 @@
-<% if !@user.tweets.empty? %>
-  <%= render 'tweets/tweets_list' %>
-<% else %>
+<% if @user.tweets.size == 0 %>
   <% if @user == current_user %>
     <p>You still haven't tweeted anything,
       <%= link_to :try_it, new_user_tweet_path(@user) %>
@@ -8,4 +6,6 @@
   <% else %>
     <p>User haven't tweeted anything yet.</p>
   <% end %>
+<% else %>
+  <%= render 'tweets/tweets_list' %>
 <% end %>

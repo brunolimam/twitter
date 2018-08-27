@@ -14,12 +14,10 @@
     </span>
     <br>
     <span>
-      <% if user_signed_in? %>
-        <% if true %>
-          <%= link_to :Dislike, user_tweet_dislike_path(tweet_id: tweet.id, user_user_name: current_user.user_name), :method => :post %>
-        <% else %>
-          <%= link_to :Like, user_tweet_like_path(tweet_id: tweet.id, user_user_name: current_user.user_name), :method => :post %>
-        <% end %>
+      <% if !tweet.likes.any? { |like| like.user_id == @user.id } %>
+        <%= link_to :like, user_tweet_like_path(user_user_name: @user.user_name, tweet_id: tweet.id), :method => :post %>
+      <% else %>
+        <%= link_to :dislike, user_tweet_like_path(user_user_name: @user.user_name, tweet_id: tweet.id), :method => :post %>
       <% end %>
     </span>
   </div>
