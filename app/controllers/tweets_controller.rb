@@ -7,7 +7,7 @@ class TweetsController < ApplicationController
 
   def index
     @user = User.find_by(user_name: params[:user_user_name])
-    @tweets = @user.tweets.includes(:likes)
+    @tweets = @user.tweets.preload(:likes)
   end
 
   def new
