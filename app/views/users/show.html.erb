@@ -1,4 +1,6 @@
-<%= image_tag @user.avatar %><br>
+<% if @user.avatar.attached? %>
+  <%= image_tag @user.avatar %><br>
+<% end %>
 Username: <%= @user.user_name %><br>
 Following: <%= @user.followed_users.size %><br>
 Followers: <%= @user.follower_users.size %><br>
