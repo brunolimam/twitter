@@ -1,7 +1,13 @@
 class TweetsController < ApplicationController
+  def timeline
+    @followed_users_id = current_user.followed_users.map { |user| user.id }
+    @tweets = Tweet.includes(:likes).where("user_id = ?", @followed_users_id).order('created_at ASC')
+    render "tweets/_tweets_list"
+  end
+
   def index
     @user = User.find_by(user_name: params[:user_user_name])
-    @tweets = @user.tweets
+    @tweets = @user.tweets.includes(:likes)
   end
 
   def new
@@ -10,9 +16,8 @@ class TweetsController < ApplicationController
   end
 
   def create
-    @user = User.find_by(user_name: params[:user_user_name])
     @tweet = Tweet.new(tweet_params)
-    if @user.tweets << @tweet
+    if current_user.tweets << @tweet
       redirect_to(:back)
     else
       @tweet.errors.details

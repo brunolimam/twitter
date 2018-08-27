@@ -1,0 +1,26 @@
+<% @tweets.each do |tweet| %>
+  <br>
+  <div>
+    <span>
+      @<%= tweet.user.user_name %>
+    </span>
+    <br>
+    <span>
+      <%= tweet.content %>
+    </span>
+    <br>
+    <span>
+      S2 -> <%= tweet.likes.size %>
+    </span>
+    <br>
+    <span>
+      <% if user_signed_in? %>
+        <% if true %>
+          <%= link_to :Dislike, user_tweet_dislike_path(tweet_id: tweet.id, user_user_name: current_user.user_name), :method => :post %>
+        <% else %>
+          <%= link_to :Like, user_tweet_like_path(tweet_id: tweet.id, user_user_name: current_user.user_name), :method => :post %>
+        <% end %>
+      <% end %>
+    </span>
+  </div>
+<% end %>

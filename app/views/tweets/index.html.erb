@@ -1,5 +1,5 @@
 <% if !@user.tweets.empty? %>
-  <%= render 'tweets/all_user_tweets' %>
+  <%= render 'tweets/tweets_list' %>
 <% else %>
   <% if @user == current_user %>
     <p>You still haven't tweeted anything,

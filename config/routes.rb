@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   
   # Profile routes
   authenticated :user do
-    root to: 'users#timeline', as: :authenticated_root
+    root to: 'tweets#timeline', as: :authenticated_root
   end
 
   resources :users, only: [:show], param: :user_name, :path => '/' do
