@@ -1,0 +1,17 @@
+<div class="card">
+  <div class="card-header">
+    <%= image_tag tweet.user.avatar.variant(resize: "64x64"), :class => "circle" %>
+    <strong><%= tweet.user.display_name %></strong>
+  </div>
+  <div class="card-body">
+    <p class="card-text">
+      <%= tweet.user.user_name %><br>
+      <%= tweet.content %>
+    </p>
+    <% if !@likes.include?(tweet.id) %>
+        <%= link_to :like, user_tweet_like_path(user_user_name: current_user.user_name, tweet_id: tweet.id), :method => :post %>
+      <% else %>
+        <%= link_to :dislike, user_tweet_like_path(user_user_name: current_user.user_name, tweet_id: tweet.id), :method => :post %>
+      <% end %>
+  </div>
+</div>

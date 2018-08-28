@@ -17,6 +17,11 @@ class TweetsController < ApplicationController
     @tweet = Tweet.new
   end
 
+  def show
+    @tweet = Tweet.find(params[:id])
+    render 'tweets/_tweet_show'
+  end
+
   def create
     @tweet = Tweet.new(tweet_params)
     if current_user.tweets << @tweet

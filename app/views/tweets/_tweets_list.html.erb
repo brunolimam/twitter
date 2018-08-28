@@ -1,24 +1,29 @@
 <% @tweets.each do |tweet| %>
-  <br>
-  <div>
-    <span>
-      @<%= tweet.user.user_name %>
-    </span>
-    <br>
-    <span>
-      <%= tweet.content %>
-    </span>
-    <br>
-    <span>
-      S2 -> <%= tweet.likes.size %>
-    </span>
-    <br>
-    <span>
-      <% if !@likes.include?(tweet.id) %>
-        <%= link_to :like, user_tweet_like_path(user_user_name: current_user.user_name, tweet_id: tweet.id), :method => :post %>
-      <% else %>
-        <%= link_to :dislike, user_tweet_like_path(user_user_name: current_user.user_name, tweet_id: tweet.id), :method => :post %>
-      <% end %>
-    </span>
+  <div class="card">
+  <div class="card-header">
+    <% if tweet.user.avatar.attached? %>
+    <%= image_tag tweet.user.avatar.variant(resize: "64x64"), :class => "circle" %>
+    <% end %>
+    <strong><%= tweet.user.display_name %></strong>
   </div>
+  <div class="card-body">
+    <p class="card-text">
+      <%= tweet.user.user_name %><br>
+      <%= tweet.content %>
+    </p>
+    <% if !@likes.include?(tweet.id) %>
+        <%= link_to user_tweet_like_path(user_user_name: current_user.user_name, tweet_id: tweet.id), :method => :post do%>
+        <i class="material-icons">
+          favorite_border
+        </i>
+        <% end %>
+      <% else %>
+        <%= link_to user_tweet_like_path(user_user_name: current_user.user_name, tweet_id: tweet.id), :method => :post do %>
+        <i class="material-icons">
+          favorite
+        </i>
+        <% end %>
+      <% end %>
+  </div>
+</div>
 <% end %>
