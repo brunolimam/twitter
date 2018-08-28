@@ -1,0 +1,25 @@
+<div class="card" style="width: 18rem;">
+  <%= image_tag @user.avatar %>
+  <div class="card-body">
+    <h5 class="card-title">
+      <%= link_to @user.user_name, user_path(@user.user_name) %>
+    </h5>
+    <p>
+      Following: <%= @user.followed_users.size %> |
+      Followers: <%= @user.follower_users.size %> |
+      Tweets: <%= @user.tweets.size %>
+    </p>
+    <p class="card-text"><%= @user.profile_description %></p>
+    <% if user_signed_in? %>
+      <% if @user == current_user %>
+        <%= link_to "Edit profile", edit_user_registration_path %>
+      <% elsif !current_user.followed_users.include?(@user) %>
+        <%= link_to "Follow", user_follow_path(@user), :method => :post %>
+      <% else %>
+        <%= link_to "Unfollow", user_unfollow_path(@user), :method => :post %>
+      <% end %>
+    <% else %>
+      <%= link_to "Join Twitter", new_user_registration_path %>
+    <% end %>
+  </div>
+</div>
