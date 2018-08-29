@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
     # Tweets routes
     resources :tweets do
-      post '/like', to: 'likes#like_handler'
+      post '/like', to: 'tweets#like_handler'
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

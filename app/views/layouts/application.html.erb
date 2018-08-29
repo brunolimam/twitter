@@ -36,24 +36,24 @@
         <% if user_signed_in? %>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a data-method="delete" href="sign_out">
+              <%= link_to destroy_user_session_path, :method => :delete do %>
                 <button type="button" class="btn btn-danger">
                   Log out
                 </button>
-              </a>
+              <% end %>
             </li>
           </ul>
         <% else %>
-          <a href="/sign_in" class="ml-auto">
+          <%= link_to new_user_session_path do %>
             <button type="button" class="btn btn-dark">
               Log in
             </button>
-          </a>
-          <a href="/sign_up"> 
+          <% end %>
+          <%= link_to new_user_registration_path do %>
             <button type="button" class="ml-4 btn btn-dark">
               Sign up
             </button>
-          </a>
+          <% end %>
         <% end %>
       </div>
     </nav>
