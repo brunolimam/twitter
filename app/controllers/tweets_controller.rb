@@ -50,13 +50,19 @@ class TweetsController < ApplicationController
   def like(user, tweet)
     like = Like.new(user_id: user.id, tweet_id: tweet.id)
     tweet.likes << like
-    redirect_back(fallback_location: root_path)
+    respond_to do |format|
+      format.html {}
+      format.js {}
+    end
   end
 
   def dislike(user, tweet)
     like = tweet.likes.find_by(user_id: user.id)
     like.destroy
-    redirect_back(fallback_location: root_path)
+    respond_to do |format|
+      format.html {}
+      format.js {}
+    end
   end
   
   private

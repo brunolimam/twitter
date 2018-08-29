@@ -2,7 +2,7 @@
   <div class="card-header">
     <%= link_to user_path(user_name: tweet.user.user_name) do%>
       <% if tweet.user.avatar.attached? %>
-      <%= image_tag tweet.user.avatar.variant(resize: "64x64"), :class => "circle" %>
+        <%= image_tag tweet.user.avatar.variant(resize: "64x64"), :class => "circle" %>
       <% end %>
       <strong class="text-primary"><%= tweet.user.display_name %></strong>
     <% end %>
@@ -12,19 +12,6 @@
       <%= tweet.user.user_name %><br>
       <%= tweet.content %>
     </p>
-    <% if !@likes.include?(tweet.id) %>
-      <%= link_to user_tweet_like_path(user_user_name: current_user.user_name, tweet_id: tweet.id), remote: true, :id => "like_link_#{tweet.id}", :method => :post do %>
-        <i class="material-icons">
-          favorite_border
-        </i>
-      <% end %>
-    <% else %>
-      <%= link_to user_tweet_like_path(user_user_name: current_user.user_name, tweet_id: tweet.id), :id => "like_link_#{tweet.id}", :method => :post do %>
-        <i class="material-icons">
-          favorite
-        </i>
-      <% end %>
-    <% end %>
-    <%= tweet.likes.size %>
+    <%= render 'like_button', :tweet => tweet %>
   </div>
 </div>
