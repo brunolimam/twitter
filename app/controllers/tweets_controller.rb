@@ -1,9 +1,9 @@
 class TweetsController < ApplicationController
   def timeline
     @followed_users_id = current_user.followed_users.map { |user| user.id }
+    @tweet =  Tweet.new
     @tweets = Tweet.preload(:likes).preload(:user).where(user_id: @followed_users_id).order('created_at DESC')
     @likes = current_user.likes.where(tweet_id: @tweets.map {|tweet| tweet.id} ).pluck(:tweet_id)
-    render "tweets/_tweets_list"
   end
 
   def index
@@ -40,19 +40,14 @@ class TweetsController < ApplicationController
     @tweet = Tweet.find(params[:tweet_id])
     if @like = current_user.likes.find_by(tweet_id: @tweet.id)
       @like.destroy
-      @likes = current_user.likes.map { |like| like.tweet_id }
-      respond_to do |format|
-        format.html {}
-        format.js {}
-      end
     else
       @like = Like.new(user_id: current_user.id, tweet_id: @tweet.id)
       @tweet.likes << @like
-      @likes = current_user.reload.likes.map { |like| like.tweet_id }
-      respond_to do |format|
-        format.html {}
-        format.js {}
-      end
+    end
+    @likes = current_user.reload.likes.map { |like| like.tweet_id }
+    respond_to do |format|
+      format.html {}
+      format.js {}
     end
   end
 
