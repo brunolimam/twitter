@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     post '/unfollow', to: 'following_relations#unfollow'
 
     # Tweets routes
-    resources :tweets, only: [:show] do
+    resources :tweets, only: [:index, :show] do
       post '/like', to: 'tweets#like_handler'
     end
   end

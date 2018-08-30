@@ -1,1 +1,13 @@
-<%= render 'profile_box' %>
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <%= render 'profile_box' %>
+    </div>
+    <div class="col-8">
+      <% if current_user == @user %>
+        <%= render 'tweets/tweet_form', :@likes => @user.likes.map { |like| like.tweet_id } %>
+      <% end %>
+      <%= render 'tweets/tweets_list' %>
+    </div>
+  </div>
+</div>

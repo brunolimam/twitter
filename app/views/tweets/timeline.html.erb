@@ -1,2 +1,11 @@
-<%= render 'tweet_form', :user_user_name => current_user.user_name %>
-<%= render 'tweets_list' %>
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <%= render 'users/profile_box', :@user => current_user %>
+    </div>
+    <div class="col-8">
+      <%= render 'tweet_form' %>
+      <%= render 'tweets_list' %>
+    </div>
+  </div>
+</div>

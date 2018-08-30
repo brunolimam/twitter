@@ -12,6 +12,8 @@
       <%= tweet.user.user_name %><br>
       <%= tweet.content %>
     </p>
-    <%= render 'like_button', :tweet => tweet %>
+    <% if user_signed_in? %>
+      <%= render 'tweets/like_button', :tweet => tweet, :@likes => @user.likes.map { |like| like.tweet_id } %>
+    <% end %>
   </div>
 </div>
