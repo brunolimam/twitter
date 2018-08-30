@@ -38,11 +38,21 @@ class TweetsController < ApplicationController
 
   def like_handler
     @tweet = Tweet.find(params[:tweet_id])
-    @likes = @tweet.likes.map { |like| like.user_id }
-    if @likes.include?(current_user.id)
-      dislike(current_user, @tweet)
+    if @like = current_user.likes.find_by(tweet_id: @tweet.id)
+      @like.destroy
+      @likes = current_user.likes.map { |like| like.tweet_id }
+      respond_to do |format|
+        format.html {}
+        format.js {}
+      end
     else
-      like(current_user, @tweet)
+      @like = Like.new(user_id: current_user.id, tweet_id: @tweet.id)
+      @tweet.likes << @like
+      @likes = current_user.reload.likes.map { |like| like.tweet_id }
+      respond_to do |format|
+        format.html {}
+        format.js {}
+      end
     end
   end
 
