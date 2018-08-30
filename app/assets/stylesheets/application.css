@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+.circle {
+  border-radius: 50%;
+}
+
+#new_tweet_content {
+  resize: none;
+}

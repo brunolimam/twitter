@@ -1,0 +1,19 @@
+<div id="tweet_<%= tweet.id %>" class="card">
+  <div class="card-header">
+    <%= link_to user_path(user_name: tweet.user.user_name) do%>
+      <% if tweet.user.avatar.attached? %>
+        <%= image_tag tweet.user.avatar.variant(resize: "64x64"), :class => "circle" %>
+      <% end %>
+      <strong class="text-primary"><%= tweet.user.display_name %></strong>
+    <% end %>
+  </div>
+  <div class="card-body">
+    <p class="card-text">
+      <%= tweet.user.user_name %><br>
+      <%= tweet.content %>
+    </p>
+    <% if user_signed_in? %>
+      <%= render 'tweets/like_button', :tweet => tweet, :@likes => @user.likes.map { |like| like.tweet_id } %>
+    <% end %>
+  </div>
+</div>
