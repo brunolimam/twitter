@@ -1,8 +1,11 @@
 class TweetsController < ApplicationController
   def timeline
     @followed_users_id = current_user.followed_users.map { |user| user.id }
-    @tweets = Tweet.preload(:likes).preload(:user).where(user_id: @followed_users_id).order('created_at DESC')
-    @likes = current_user.likes.where(tweet_id: @tweets.map {|tweet| tweet.id} ).pluck(:tweet_id)
+    @tweets = Tweet.preload(:user).where(user_id: @followed_users_id).order('created_at DESC')
+    @likes = Like.where(user_id: current_user.id, tweet_id: @tweets.map { |tweet| tweet.id }).as_json(only: [:user_id, :tweet_id])
+    @tweets.each do |tweet|
+      tweet.liked = @likes.include?({"user_id" => current_user.id, "tweet_id" => tweet.id })
+    end
     @tweet =  Tweet.new
     @follow_button = "users/edit_profile"
   end
@@ -20,7 +23,7 @@ class TweetsController < ApplicationController
 
   def show
     @tweet = Tweet.find(params[:id])
-    render 'tweets/_tweet_show'
+    render @tweet
   end
 
   def create
@@ -41,11 +44,13 @@ class TweetsController < ApplicationController
     @tweet = Tweet.find(params[:tweet_id])
     if @like = current_user.likes.find_by(tweet_id: @tweet.id)
       @like.destroy
+      @tweet.liked = false
     else
       @like = Like.new(user_id: current_user.id, tweet_id: @tweet.id)
       @tweet.likes << @like
+      @tweet.liked = true
     end
-    @likes = current_user.reload.likes.map { |like| like.tweet_id }
+    @tweet.reload
     respond_to do |format|
       format.html {}
       format.js {}
@@ -53,24 +58,6 @@ class TweetsController < ApplicationController
   end
 
   private
-  def like(user, tweet)
-    like = Like.new(user_id: user.id, tweet_id: tweet.id)
-    tweet.likes << like
-    respond_to do |format|
-      format.html {}
-      format.js {}
-    end
-  end
-
-  def dislike(user, tweet)
-    like = tweet.likes.find_by(user_id: user.id)
-    like.destroy
-    respond_to do |format|
-      format.html {}
-      format.js {}
-    end
-  end
-
   def tweet_params
     params.require(:tweet).permit(:content)
   end

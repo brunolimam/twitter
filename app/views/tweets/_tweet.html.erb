@@ -13,7 +13,7 @@
       <%= tweet.content %>
     </p>
     <% if user_signed_in? %>
-      <%= render 'tweets/like_button', :tweet => tweet, :@likes => @user.likes.map { |like| like.tweet_id } %>
+      <%= render 'tweets/like_button', :tweet => tweet %>
     <% end %>
   </div>
 </div>
