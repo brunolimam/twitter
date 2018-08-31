@@ -4,6 +4,7 @@ class TweetsController < ApplicationController
     @tweets = Tweet.preload(:likes).preload(:user).where(user_id: @followed_users_id).order('created_at DESC')
     @likes = current_user.likes.where(tweet_id: @tweets.map {|tweet| tweet.id} ).pluck(:tweet_id)
     @tweet =  Tweet.new
+    @follow_button = "users/edit_profile"
   end
 
   def index
@@ -69,8 +70,7 @@ class TweetsController < ApplicationController
       format.js {}
     end
   end
-  
-  private
+
   def tweet_params
     params.require(:tweet).permit(:content)
   end

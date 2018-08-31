@@ -8,10 +8,11 @@ Rails.application.routes.draw do
     post '/tweets', to: 'tweets#create'
   end
 
-  resources :users, only: [:show], param: :user_name, :path => '/' do
-    # Following actions routes
-    post '/follow', to: 'following_relations#follow'
-    post '/unfollow', to: 'following_relations#unfollow'
+  resources :users, param: :user_name, only: [:show], :path => '/' do
+    member do
+      post '/follow', to: 'users#follow'
+      post '/unfollow', to: 'users#unfollow'
+    end
 
     # Tweets routes
     resources :tweets, only: [:index, :show] do

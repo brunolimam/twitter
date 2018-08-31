@@ -12,6 +12,8 @@
       Tweets: <%= @user.tweets.size %>
     </p>
     <p class="card-text"><%= @user.profile_description %></p>
-    <%= render 'users/follow_button' %>
+    <div id="follow_button">
+      <%= render "#{@follow_button}_button"  %>
+    </div>
   </div>
 </div>

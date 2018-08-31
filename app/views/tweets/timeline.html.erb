@@ -1,9 +1,9 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-4">
+    <div class="col">
       <%= render 'users/profile_box', :@user => current_user %>
     </div>
-    <div class="col-8">
+    <div class="col-6">
       <%= render 'tweet_form' %>
       <%= render 'tweets_list' %>
     </div>

@@ -44,17 +44,9 @@
             </li>
           </ul>
         <% else %>
-        <div class="ml-auto">
-          <%= link_to new_user_session_path do %>
-            <button type="button" class="btn btn-dark">
-              Log in
-            </button>
-          <% end %>
-          <%= link_to new_user_registration_path do %>
-            <button type="button" class="ml-4 btn btn-dark">
-              Sign up
-            </button>
-          <% end %>
+        <div class="ml-auto d-flex justify-content-end">
+          <%= render 'users/login_button' %>
+          <%= render 'users/sign_up_button' %>
         <% end %>
       </div>
     </nav>
