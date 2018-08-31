@@ -6,6 +6,11 @@
       <% end %>
       <strong class="text-primary"><%= tweet.user.display_name %></strong>
     <% end %>
+    <%= link_to user_tweet_path(user_user_name: current_user.user_name, id: tweet.id), :method => :delete do %>
+      <i class="material-icons ml-auto">
+        delete
+      </i>
+    <% end %>
   </div>
   <div class="card-body">
     <p class="card-text">

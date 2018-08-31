@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(user_name: params[:user_name]) or not_found
     @tweets = @user.tweets.order('created_at DESC').preload(:likes)
+    @likes = Like.where(user_id: current_user.id, tweet_id: @tweets.map(&:id)).pluck(:tweet_id)
     @follow_button = evaluate_follow(@user)
     if current_user == @user
       @tweet = Tweet.new

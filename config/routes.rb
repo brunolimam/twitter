@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     end
 
     # Tweets routes
-    resources :tweets, only: [:index, :show] do
+    resources :tweets, only: [:destroy] do
       post '/like', to: 'tweets#like_handler'
     end
   end

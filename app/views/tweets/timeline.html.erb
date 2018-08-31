@@ -4,8 +4,12 @@
       <%= render 'users/profile_box', :@user => current_user %>
     </div>
     <div class="col-6">
-      <%= render 'tweet_form' %>
-      <%= render 'tweets_list' %>
+      <div>
+        <%= render 'tweet_form' %>
+      </div>
+      <div id="tweet_list">
+        <%= render 'tweets_list' %>
+      </div>
     </div>
   </div>
 </div>
