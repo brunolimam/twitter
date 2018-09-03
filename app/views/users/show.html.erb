@@ -7,7 +7,7 @@
       <% if current_user == @user %>
         <%= render 'tweets/tweet_form', :@likes => @user.likes.map { |like| like.tweet_id } %>
       <% end %>
-      <%= render 'tweets/tweets_list' %>
+      <%= render @tweets %>
     </div>
   </div>
 </div>

@@ -1,0 +1,6 @@
+function remove_tweet_from_timeline() {
+  var tweet = document.getElementById('tweet_<%= tweet.id %>');
+  tweet.parentNode.removeChild(tweet);
+}
+
+remove_tweet_from_timeline();
