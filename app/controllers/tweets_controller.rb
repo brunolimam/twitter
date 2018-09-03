@@ -6,10 +6,6 @@ class TweetsController < ApplicationController
     @likes = Like.where(user_id: current_user.id, tweet_id: @tweets.map(&:id)).pluck(:tweet_id)
     @tweet = Tweet.new
     @follow_button = "users/edit_profile"
-    respond_to do |format|
-      format.html {}
-      format.js {}
-    end
   end
 
   def create
@@ -26,7 +22,10 @@ class TweetsController < ApplicationController
   def destroy
     @tweet = Tweet.find(params[:id])
     @tweet.destroy
-    redirect_back(fallback_location: root_path)
+    respond_to do |format|
+      format.html {}
+      format.js {}
+    end
   end
 
   def like_handler
