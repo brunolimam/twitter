@@ -12,6 +12,7 @@ class TweetsController < ApplicationController
     @tweets = []
     @likes = []
     @tweet = Tweet.new(tweet_params)
+    analyze_mention(@tweet)
     current_user.tweets << @tweet
     respond_to do |format|
       format.html {}
@@ -47,5 +48,21 @@ class TweetsController < ApplicationController
   private
   def tweet_params
     params.require(:tweet).permit(:content)
+  end
+
+  def analyze_tweet_content(tweet)
+    mention = tweet[/[@][a-zA-Z1-9]*/]
+    return mention[1,mention.length]
+  end
+
+  def analyze_mention(tweet)
+    @mention = analyze_tweet_content(tweet.content)
+    if @mention != nil
+      @user = User.find_by(user_name: @mention)
+      if @user != nil
+        @created_mention = Mention.create(tweet_id: @tweet.id, user_id: @user.id)
+        @tweet.mentions << @created_mention
+      end
+    end
   end
 end
