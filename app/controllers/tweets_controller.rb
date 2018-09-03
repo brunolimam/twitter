@@ -2,7 +2,7 @@ class TweetsController < ApplicationController
   def timeline
     @followed_users_id = current_user.followed_users.pluck(:id)
     @followed_users_id << current_user.id
-    @tweets = Tweet.preload(:user).where(user_id: @followed_users_id).paginate(page: params[:page], :per_page => 5).order('created_at DESC')
+    @tweets = Tweet.preload(:user).preload(:mentions).where(user_id: @followed_users_id).paginate(page: params[:page], :per_page => 5).order('created_at DESC')
     @likes = Like.where(user_id: current_user.id, tweet_id: @tweets.map(&:id)).pluck(:tweet_id)
     @tweet = Tweet.new
     @follow_button = "users/edit_profile"
