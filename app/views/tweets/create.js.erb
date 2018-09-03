@@ -1,0 +1,22 @@
+function createElementFromHTML(htmlString) {
+  var div = document.createElement('div');
+  div.innerHTML = htmlString.trim();
+
+  return div.firstChild; 
+}
+
+function append_tweet_to_timeline() {
+  var tweet_list = document.getElementById('tweet_list');
+  var new_tweet = createElementFromHTML('<%= j render @tweet %>');
+  tweet_list.insertBefore(new_tweet, tweet_list.firstChild);
+}
+
+function refresh_tweet_form() {
+  var text_area = document.querySelector('#new_tweet .card textarea');
+  text_area.value = '';
+}
+
+function main() {
+  append_tweet_to_timeline();
+  refresh_tweet_form();
+}

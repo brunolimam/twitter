@@ -6,9 +6,15 @@ class TweetsController < ApplicationController
     @likes = Like.where(user_id: current_user.id, tweet_id: @tweets.map(&:id)).pluck(:tweet_id)
     @tweet = Tweet.new
     @follow_button = "users/edit_profile"
+    respond_to do |format|
+      format.html {}
+      format.js {}
+    end
   end
 
   def create
+    @tweets = []
+    @likes = []
     @tweet = Tweet.new(tweet_params)
     current_user.tweets << @tweet
     respond_to do |format|
