@@ -12,7 +12,6 @@ class TweetsController < ApplicationController
     @tweets = []
     @likes = []
     @tweet = Tweet.new(tweet_params)
-    analyze_mention(@tweet)
     current_user.tweets << @tweet
     respond_to do |format|
       format.html {}
@@ -27,6 +26,11 @@ class TweetsController < ApplicationController
       format.html {}
       format.js {}
     end
+  end
+
+  def show
+    @tweet = Tweet.find(params[:id])
+    render 'tweets/_tweet', :tweet => @tweet
   end
 
   def like_handler
@@ -50,31 +54,4 @@ class TweetsController < ApplicationController
     params.require(:tweet).permit(:content)
   end
 
-  def analyze_tweet_content(tweet)
-    mention = tweet[/[@][a-zA-Z1-9]*/]
-    if mention
-      return mention[1,mention.length]
-    else
-      return nil
-    end
-  end
-
-  def analyze_mention(tweet)
-    @mention = analyze_tweet_content(tweet.content)
-    if @mention != nil
-      @user = User.find_by(user_name: @mention)
-      if @user != nil
-        @created_mention = Mention.create(tweet_id: @tweet.id, user_id: @user.id)
-        @tweet.mentions << @created_mention
-      end
-    end
-  end
-
-  def treat_tweet_content(tweet)
-    new_content = tweet.content
-    mention = analyze_tweet_content(tweet.content)
-    new_content.sub! "@#{mention}", ""
-  end
-
-  helper_method :treat_tweet_content
 end
