@@ -24,3 +24,11 @@
     <% end %>
   </div>
 </div>
+
+<% if !tweet.mentions.empty? %>
+  <script>
+    var tweet_content = document.querySelector('#tweet_<%= tweet.id %> .card-body .card-text');
+  var mention_element = getMention(tweet_content.innerHTML);
+  tweet_content.innerHTML = tweet_content.innerHTML.replace(/@[a-zA-Z1-9]*/, mention_element);
+  </script>
+<% end %>

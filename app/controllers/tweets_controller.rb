@@ -52,7 +52,11 @@ class TweetsController < ApplicationController
 
   def analyze_tweet_content(tweet)
     mention = tweet[/[@][a-zA-Z1-9]*/]
-    return mention[1,mention.length]
+    if mention
+      return mention[1,mention.length]
+    else
+      return nil
+    end
   end
 
   def analyze_mention(tweet)
@@ -65,4 +69,12 @@ class TweetsController < ApplicationController
       end
     end
   end
+
+  def treat_tweet_content(tweet)
+    new_content = tweet.content
+    mention = analyze_tweet_content(tweet.content)
+    new_content.sub! "@#{mention}", ""
+  end
+
+  helper_method :treat_tweet_content
 end
