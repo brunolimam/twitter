@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:follow, :unfollow]
 
+  def mentions
+    @mentions = Mention.where(user_id: current_user.id).preload(:user).preload(:tweet)
+    render 'mentions/_mentions_list'
+  end
+
   def show
     @user = User.find_by(user_name: params[:user_name]) or not_found
     @tweets = @user.tweets.order('created_at DESC').preload(:likes)

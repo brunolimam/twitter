@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   authenticated :user do
     root to: 'tweets#timeline', as: :authenticated_root
     post '/tweets', to: 'tweets#create'
+    get '/mentions', to: 'users#mentions'
   end
 
   resources :users, param: :user_name, only: [:show], :path => '/' do
@@ -15,7 +16,7 @@ Rails.application.routes.draw do
     end
 
     # Tweets routes
-    resources :tweets, only: [:destroy] do
+    resources :tweets, only: [:show, :destroy] do
       post '/like', to: 'tweets#like_handler'
     end
   end
