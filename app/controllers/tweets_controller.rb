@@ -11,8 +11,6 @@ class TweetsController < ApplicationController
   end
 
   def create
-    @tweets = []
-    @likes = []
     @tweet = Tweet.new(tweet_params)
     current_user.tweets << @tweet
     respond_to do |format|
@@ -32,6 +30,11 @@ class TweetsController < ApplicationController
 
   def show
     @tweet = Tweet.find(params[:id])
+    if Like.find_by(tweet_id: params[:id], user_id: current_user.id)
+      @tweet.liked = true
+    else
+      @tweet.liked = false
+    end
     render 'tweets/_tweet', locals: {tweet: @tweet}
   end
 
