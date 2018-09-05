@@ -1,5 +1,5 @@
 $('#tweet_list').append('<%= j render @tweets %>');
-<% if @posts.next_page %>
+<% if @tweets.next_page %>
   $('.pagination').replaceWith('<%= j will_paginate @tweets %>');
 <% else %>
   $(window).off('scroll');
