@@ -10,7 +10,7 @@
   <div class="card-body">
     <p class="card-text">
       <%= tweet.user.user_name %><br>
-      <%= treat_content(tweet) %>
+      <%= treat_tweet_content(tweet) %>
     </p>
     <% if user_signed_in? %>
       <%= render 'tweets/like_button', :tweet => tweet %>

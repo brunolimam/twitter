@@ -1,6 +1,7 @@
+include ApplicationHelper
 class TweetsController < ApplicationController
-  helper_method :treat_content
-
+  helper_method :treat_tweet_content
+  
   def timeline
     @followed_users_id = current_user.followed_users.pluck(:id)
     @followed_users_id << current_user.id
@@ -54,16 +55,6 @@ class TweetsController < ApplicationController
   private
   def tweet_params
     params.require(:tweet).permit(:content)
-  end
-
-  def treat_content(tweet)
-    unless tweet.mentions.empty?
-      @mentions = tweet.content.scan(/[@][a-zA-Z1-9]*/)
-      @mentions.each do |mention|
-        tweet.content.sub! mention, "<a href='/#{mention[1, mention.length]}'>#{mention}</a>"
-      end
-    end
-    return tweet.content.html_safe
   end
 
 end
