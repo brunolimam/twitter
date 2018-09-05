@@ -3,10 +3,9 @@ class TweetsController < ApplicationController
   helper_method :treat_tweet_content
   
   def timeline
-    @followed_users_id = current_user.followed_users.pluck(:id)
-    @followed_users_id << current_user.id
+    @followed_users_id = current_user.followed_users.pluck(:id) << current_user.id
     @tweets = Tweet.preload(:user).preload(:mentions).where(user_id: @followed_users_id).paginate(page: params[:page], :per_page => 5).order('created_at DESC')
-    @likes = Like.where(user_id: current_user.id, tweet_id: @tweets.map(&:id)).pluck(:tweet_id)
+    @tweets = check_for_liked_tweets(@tweets)
     @tweet = Tweet.new
     @follow_button = "users/edit_profile"
   end
@@ -33,18 +32,19 @@ class TweetsController < ApplicationController
 
   def show
     @tweet = Tweet.find(params[:id])
-    render 'tweets/_tweet', :tweet => @tweet
+    render 'tweets/_tweet', locals: {tweet: @tweet}
   end
 
   def like_handler
     @tweet = Tweet.find(params[:tweet_id])
     if @like = current_user.likes.find_by(tweet_id: @tweet.id)
       @like.destroy
+      @tweet.liked = false
     else
       @like = Like.new(user_id: current_user.id, tweet_id: @tweet.id)
       @tweet.likes << @like
+      @tweet.liked = true
     end
-    @likes = Like.where(user_id: current_user.id, tweet_id: @tweet.id).map(&:tweet_id)
     @tweet.reload
     respond_to do |format|
       format.html {}

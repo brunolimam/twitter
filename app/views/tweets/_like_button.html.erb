@@ -1,9 +1,9 @@
 <%= link_to user_tweet_like_path(user_user_name: current_user.user_name, tweet_id: tweet.id), remote: true, :id => "like_link_#{tweet.id}", :method => :post do %>
   <i class="material-icons">
-    <% if !@likes.include?(tweet.id) %>
-      favorite_border
-    <% else %>
+    <% if tweet.liked %>
       favorite
+    <% else %>
+      favorite_border
     <% end %>
   </i>
   <%= tweet.likes.size %>

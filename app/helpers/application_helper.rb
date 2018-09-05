@@ -1,6 +1,14 @@
 include ActionView::Helpers::UrlHelper
 
 module ApplicationHelper
+  def check_for_liked_tweets(tweets)
+    @likes = Like.where(user_id: current_user.id, tweet_id: @tweets.map(&:id)).pluck(:tweet_id)
+    tweets.each do |tweet|
+      tweet.liked = @likes.include?(tweet.id)
+    end
+    return tweets
+  end
+
   def treat_tweet_content(tweet)
     unless tweet.mentions.empty?
       @users_id = tweet.mentions.preload(:users).pluck(:user_id)
