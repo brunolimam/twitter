@@ -5,7 +5,6 @@ require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-
 module Twitter
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -13,6 +12,8 @@ module Twitter
 
     # Use Vips for processing variants.
     config.active_storage.variant_processor = :vips
+
+    config.action_mailer.default_url_options = { host: 'localhost:3000/' }
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
