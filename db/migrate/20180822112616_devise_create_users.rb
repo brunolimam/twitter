@@ -7,6 +7,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
       t.string :user_name, null: false, default: ""
       t.string :display_name, null: false, default: ""
       t.string :profile_description, null: false, default: ""
+      t.integer :likes_count, null: false, default: 0
 
       ## Database authenticatable
       t.string :email,              null: false, default: ""

@@ -8,7 +8,7 @@ class MentionsValidator < ActiveModel::Validator
     @mentioned_users.each do |mentioned_user|
       @mention = Mention.new(user_id: mentioned_user.id)
       record.mentions << @mention
-      TweetMentionMailer.with(user: mentioned_user, mention: @mention).notify_mentioned_user.deliver_now
+      TweetMentionMailer.with(user: mentioned_user, mention: @mention).notify_mentioned_user.deliver_later
     end
   end
 end

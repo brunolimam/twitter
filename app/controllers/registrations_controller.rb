@@ -1,5 +1,11 @@
 class RegistrationsController < Devise::RegistrationsController
-
+  def destroy
+    @user = current_user
+    if @user.avatar.attached?
+      @user.avatar.purge
+    end
+    super
+  end
 
   private
 

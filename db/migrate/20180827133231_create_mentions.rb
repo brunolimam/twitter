@@ -6,7 +6,5 @@ class CreateMentions < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-
-    remove_column :likes, :likes_count
   end
 end
