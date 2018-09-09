@@ -13,6 +13,9 @@ Rails.application.routes.draw do
     member do
       post '/follow', to: 'users#follow'
       post '/unfollow', to: 'users#unfollow'
+
+      post '/block', to: 'users#block'
+      post '/unblock', to: 'users#unblock'
     end
 
     # Tweets routes

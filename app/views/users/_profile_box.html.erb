@@ -15,5 +15,10 @@
     <div id="follow_button">
       <%= render "#{@follow_button}_button"  %>
     </div>
+    <% if user_signed_in? and @user != current_user %>
+      <div id="block_button">
+        <%= render "users/#{@block_button}_button" %>
+      </div>
+    <% end %>
   </div>
 </div>

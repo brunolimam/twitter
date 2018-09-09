@@ -1,0 +1,5 @@
+<%= link_to unblock_user_path(@user), remote: true, :method => :post do %>
+  <button class="btn btn-danger disabled">
+    Blocked
+  </button>
+<% end %>

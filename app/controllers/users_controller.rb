@@ -12,10 +12,35 @@ class UsersController < ApplicationController
     @tweets = @user.tweets.order('created_at DESC').preload(:likes)
     if user_signed_in?
       @tweets = check_for_liked_tweets(@tweets)
+      if current_user.blocked_users.include?(@user)
+        @block_button = 'unblock'
+      else
+        @block_button = 'block'
+      end
     end
-    @follow_button = evaluate_follow(@user)
+    @follow_button = evaluate_follow
     if current_user == @user
       @tweet = Tweet.new
+    end
+  end
+
+  def block
+    @blocked_user = User.find(params[:user_name])
+    current_user.followed_users.delete(@blocked_user)
+    current_user.follower_users.delete(@blocked_user)
+    current_user.blocked_users << @blocked_user
+    respond_to do |format|
+      format.html {}
+      format.js {}
+    end
+  end
+
+  def unblock
+    @unblocked_user = User.find(params[:user_name])
+    current_user.blocked_users.delete(@unblocked_user)
+    respond_to do |format|
+      format.html {}
+      format.js {}
     end
   end
 
@@ -42,7 +67,7 @@ class UsersController < ApplicationController
     raise ActiveRecord::RecordNotFound
   end
 
-  def evaluate_follow(user)
+  def evaluate_follow
     if user_signed_in?
       if @user == current_user
         return :edit_profile
