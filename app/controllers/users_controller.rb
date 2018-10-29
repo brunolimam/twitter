@@ -44,6 +44,7 @@ class UsersController < ApplicationController
     end
   end
 
+  #follow an user
   def follow
     @followed_user = User.find(params[:user_name])
     @followed_user.follower_users << current_user
